@@ -1,0 +1,23 @@
+---
+
+- name: Download k0s binary amd64
+  get_url:
+    url: https://github.com/k0sproject/k0s/releases/download/{{ k0s_version }}/k0s-{{ k0s_version }}-amd64
+    dest: /usr/local/bin/k0s
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+  when: ansible_facts.architecture == "x86_64"
+
+- name: Download k0s binary arm64
+  get_url:
+    url: https://github.com/k0sproject/k0s/releases/download/{{ k0s_version }}/k0s-{{ k0s_version }}-arm64
+    dest: /usr/local/bin/k0s
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+  when:
+    - ( ansible_facts.architecture is search("arm") and
+        ansible_facts.userspace_bits == "64" ) or
+      ansible_facts.architecture is search("aarch64")
+

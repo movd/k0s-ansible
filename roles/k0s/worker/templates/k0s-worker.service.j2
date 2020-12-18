@@ -1,0 +1,14 @@
+[Unit]
+Description=k0s worker
+Documentation=https://k0sproject.io/
+After=network-online.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/local/bin/k0s \
+    worker {{ hostvars['join_token_holder']['token'] }}
+
+[Install]
+WantedBy=multi-user.target
