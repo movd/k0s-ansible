@@ -1,5 +1,0 @@
----
-k0s_version: v0.8.1
-ansible_user: k0s
-artifacts_dir: "{{ inventory_dir }}/artifacts"
-ansible_user: k0s
