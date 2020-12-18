@@ -3,13 +3,13 @@
 - name: Write the k0s config file
   template:
     src: k0s.yaml.j2
-    dest: /etc/k0s/k0s.yaml
+    dest: "{{ k0s_config_dir }}/k0s.yaml"
 
 - name: Copy k0s service file
   register: k0s_controller_service
   template:
     src: k0s-controller.service.j2
-    dest: /etc/systemd/system/k0s-controller.service
+    dest: "{{ systemd_dest }}/k0s-controller.service"
     owner: root
     group: root
     mode: 0755
@@ -47,11 +47,11 @@
 
 - name: Copy config file to user home directory
   copy:
-    src: /var/lib/k0s/pki/admin.conf
+    src: "{{ k0s_data_dir }}/pki/admin.conf"
     dest: ~{{ ansible_user }}/k0s-kubeconfig.yml
     remote_src: yes
     owner: "{{ ansible_user }}"
-    mode: "u=rw,g=,o="
+    mode: 0644
 
 - name: Set controller IP in kubeconfig
   replace:

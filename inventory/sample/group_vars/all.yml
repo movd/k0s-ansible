@@ -2,3 +2,8 @@
 k0s_version: v0.8.1
 ansible_user: k0s
 artifacts_dir: "{{ inventory_dir }}/artifacts"
+systemd_dest: /etc/systemd/system
+k0s_binary_dest: /usr/local/bin/k0s
+k0s_config_dir: /etc/k0s
+k0s_data_dir: /var/lib/k0s
+k0s_libexec_dir: /usr/libexec/k0s/

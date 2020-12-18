@@ -1,26 +1,26 @@
 ---
 
-    - name: Create a Directory /etc/k0s
+    - name: Create a Directory "{{ k0s_config_dir }}"
       become: true
       file:
-        path: /etc/k0s
+        path: "{{ k0s_config_dir }}"
         state: directory
         mode: 0755
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-    - name: Create a Directory /var/lib/k0s
+    - name: Create a Directory "{{ k0s_data_dir }}"
       become: true
       file:
-        path: /var/lib/k0s
+        path: "{{ k0s_data_dir }}"
         state: directory
         mode: 0755
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
 
-    - name: Create a Directory /usr/libexec/k0s/
+    - name: Create a Directory "{{ k0s_libexec_dir }}"
       become: true
       file:
-        path: /usr/libexec/k0s/
+        path: "{{ k0s_libexec_dir }}"
         state: directory
         mode: 0755
         owner: "{{ ansible_user }}"

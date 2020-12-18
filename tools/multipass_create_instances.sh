@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+if ! command -v multipass &> /dev/null
+then
+    echo "multipass could not be found"
+    echo "Check <https://github.com/canonical/multipass> on how to install it"
+    exit
+fi
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 NUMBER_OF_VMS=5

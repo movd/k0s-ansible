@@ -1,9 +1,9 @@
 ---
 
-- name: Create a Directory /var/lib/k0s
+- name: Create a Directory "{{ k0s_data_dir }}"
   become: true
   file:
-    path: /var/lib/k0s
+    path: "{{ k0s_data_dir }}"
     state: directory
     mode: 0755
     owner: k0s
@@ -14,7 +14,7 @@
   register: k0s_worker_service
   template:
     src: k0s-worker.service.j2
-    dest: /etc/systemd/system/k0s-worker.service
+    dest: "{{ systemd_dest }}/k0s-worker.service"
     owner: root
     group: root
     mode: 0755

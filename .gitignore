@@ -1,5 +1,7 @@
 *.code-workspace
 .vscode
-inventory/multipass/inventory.yml
-inventory/multipass/artifacts/*
-inventory/multipass/multipass-cloud-init.yml
+inventory/*
+!inventory/sample
+inventory/*/artifacts/
+multipass-cloud-init.yml
+tools/inventory.yml
