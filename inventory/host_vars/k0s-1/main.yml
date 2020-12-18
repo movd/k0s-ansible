@@ -1,0 +1,2 @@
+ansible_host: 192.168.64.32
+controller_config_dest: /etc/k0s

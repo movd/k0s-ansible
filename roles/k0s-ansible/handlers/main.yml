@@ -1,0 +1,15 @@
+---
+      - name: Enable and check k0s-controler service
+        systemd:
+          name: k0s-controller
+          daemon_reload: yes
+          state: restarted
+          enabled: yes
+
+      - name: Enable and check k0s-worker service
+        become: true
+        systemd:
+          name: k0s-worker
+          daemon_reload: yes
+          state: restarted
+          enabled: yes

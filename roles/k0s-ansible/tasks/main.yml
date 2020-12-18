@@ -1,0 +1,4 @@
+- include_tasks: prereq.yml
+- include_tasks: download.yml
+- include_tasks: controller.yml
+- include_tasks: worker.yml

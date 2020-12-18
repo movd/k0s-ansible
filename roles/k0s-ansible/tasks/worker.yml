@@ -1,0 +1,24 @@
+---
+
+- when: inventory_hostname in groups['worker']
+  block:
+
+    - name: Create a Directory /var/lib/k0s
+      become: true
+      file:
+        path: {{ directory_lib_k0s }}
+        state: directory
+        mode: 0755
+        owner: k0s
+        group: k0s
+
+    - name: Copy k0s service file
+      become: true
+      register: k0s_worker_service
+      template:
+        src: k0s-worker.service.j2
+        dest: {{ systemd_dest }}/k0s-worker.service
+        owner: root
+        group: root
+        mode: 0755
+      notify: Enable and check k0s-worker service
