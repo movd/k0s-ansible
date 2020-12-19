@@ -14,12 +14,13 @@ echo "Create cloud-init to import ssh key..."
 
 # https://github.com/canonical/multipass/issues/965#issuecomment-591284180
 cat <<EOF > "${DIR}"/multipass-cloud-init.yml
+---
 users:
-- name: k0s
-  sudo: ALL=(ALL) NOPASSWD:ALL
-  shell: /usr/bin/bash
-  ssh_authorized_keys:
-  - $( cat ~/.ssh/id_*.pub )
+  - name: k0s
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /usr/bin/bash
+    ssh_authorized_keys:
+      - $( cat ~/.ssh/id_*.pub )
 EOF
 
 for ((i = 1 ; i <= "${NUMBER_OF_VMS}" ; i++)); do

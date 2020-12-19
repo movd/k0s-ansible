@@ -4,6 +4,9 @@
   template:
     src: k0s.yaml.j2
     dest: "{{ k0s_config_dir }}/k0s.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600
 
 - name: Copy k0s service file
   register: k0s_controller_service
@@ -28,18 +31,19 @@
     timeout: 180
 
 - name: Create join worker token
-  shell: k0s token create --role=worker 
-  register: join_token_command
+  register: worker_join_token
+  command: k0s token create --role=worker
+  changed_when: worker_join_token | length > 0
 
 - name: Store join worker join token
   set_fact:
-      join_token_worker: "{{ join_token_command.stdout }}"
-      key_value: "{{ join_token_command.stdout }}"
+    join_token_worker: "{{ worker_join_token.stdout }}"
+    key_value: "{{ worker_join_token.stdout }}"
 
 - name: "Add k0s Token to dummy host"
   add_host:
-    name:   "join_token_holder"
-    token:  "{{ join_token_command.stdout }}"
+    name: "join_token_holder"
+    token: "{{ worker_join_token.stdout }}"
 
 - name: "print token"
   debug:

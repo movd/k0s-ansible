@@ -20,5 +20,3 @@
   name: Configure k0s worker nodes
   roles:
     - role: k0s/worker
-
-

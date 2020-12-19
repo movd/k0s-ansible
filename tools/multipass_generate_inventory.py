@@ -75,7 +75,7 @@ yaml.add_representer(type(None), represent_none)
 # Write inventory as yaml
 yaml_path = Path(__file__).with_name('inventory.yml')
 f = open(yaml_path, 'w')
-f.write(yaml.dump(inventory))
+f.write(yaml.dump(inventory, explicit_start=True))
 f.close
 
 print(f'Created Ansible Inventory at: {yaml_path}')

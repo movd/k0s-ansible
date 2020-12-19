@@ -149,4 +149,3 @@ $ multipass purge
 ## Todo
 
 - Support multiple control plane nodes
-- Don't run k0s as root on worker nodes
