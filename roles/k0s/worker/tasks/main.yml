@@ -6,8 +6,8 @@
     path: "{{ k0s_data_dir }}"
     state: directory
     mode: 0755
-    owner: k0s
-    group: k0s
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: Copy k0s service file
   become: true
@@ -18,6 +18,14 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Write the k0s token file on worker
+  template:
+    src: worker-token.j2
+    dest: "{{ k0s_config_dir }}/worker-token"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600
 
 - name: Enable and check k0s service
   become: true
