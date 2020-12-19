@@ -27,7 +27,7 @@ spec:
       vxlanPort: 4789
       vxlanVNI: 4096
       mtu: 1450
-      wireguard: no
+      wireguard: false
   podSecurityPolicy:
     defaultPolicy: 00-k0s-privileged
   workerProfiles: []
@@ -61,4 +61,4 @@ images:
   repository: ""
 telemetry:
   interval: 10m0s
-  enabled: yes
+  enabled: true
