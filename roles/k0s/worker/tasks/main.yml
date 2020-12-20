@@ -1,20 +1,11 @@
 ---
 
-- name: Create a Directory "{{ k0s_data_dir }}"
-  become: true
-  file:
-    path: "{{ k0s_data_dir }}"
-    state: directory
-    mode: 0755
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-
 - name: Copy k0s service file
   become: true
   register: k0s_worker_service
   template:
-    src: k0s-worker.service.j2
-    dest: "{{ systemd_dest }}/k0s-worker.service"
+    src: k0s.service.j2
+    dest: "{{ systemd_dest }}/k0s.service"
     owner: root
     group: root
     mode: 0755
@@ -30,7 +21,7 @@
 - name: Enable and check k0s service
   become: true
   systemd:
-    name: k0s-worker
+    name: k0s
     daemon_reload: yes
     state: restarted
     enabled: yes

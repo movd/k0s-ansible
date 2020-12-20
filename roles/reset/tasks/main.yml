@@ -1,0 +1,34 @@
+---
+
+- name: Disable k0s service
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  failed_when: false
+  with_items:
+    - k0s
+
+- name: Umount k3s filesystems
+  include_tasks: umount_with_children.yml
+  with_items:
+    - "{{ k0s_data_dir }}"
+    - "{{ k0s_libexec_dir }}"
+  loop_control:
+    loop_var: mounted_fs
+
+- name: Remove k0s Directories
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ k0s_config_dir }}"
+    - "{{ k0s_data_dir }}"
+    - "{{ k0s_libexec_dir }}"
+    - /var/lib/kubelet
+    - "{{ systemd_dest }}/k0s.service"
+
+- name: daemon_reload
+  systemd:
+    daemon_reload: yes

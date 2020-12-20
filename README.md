@@ -1,12 +1,32 @@
 # k0s Ansible Playbook
 
-Create a Kubernetes Cluster using Ansible and k0s (and multipass).
+Create a Kubernetes Cluster using Ansible and k0s.
 
 This script is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible) and, of course, [kubespray](https://github.com/kubernetes-sigs/kubespray). I put it together to learn about Ansible and the new single binary and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s).
 
-For the quick creation of virtual machines, I have added a script that provisions a bunch of nodes via [multipass](https://github.com/canonical/multipass) and another small Python script that generates an Ansible inventory from the created instances.
+## Included Playbooks
+
+`site.yml`:
+
+```ShellSession
+$ ansible-playbook site.yml -i inventory/multipass/inventory.yml
+```
+
+Install k0s on `worker` and `controller` host in your inventory. Currently creates one Kubernetes control plane server.
+
+`reset.yml`:
+
+```ShellSession
+$ ansible-playbook reset.yml -i inventory/multipass/inventory.yml
+```
+
+Deletes k0s all its files, directories and services from all hosts.
 
 ## Example with multipass
+
+For the quick creation of virtual machines, I have added a script that provisions a bunch of nodes via [multipass](https://github.com/canonical/multipass) and another small Python script that generates an Ansible inventory from the created instances.
+
+Steps:
 
 Create 5 instances with multipass and import your ssh public key with cloud-init (`create_instances.sh`):
 
