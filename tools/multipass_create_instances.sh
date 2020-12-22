@@ -8,7 +8,8 @@ fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-NUMBER_OF_VMS=5
+# Default to 5 VMs
+NUMBER_OF_VMS=${1:-5}
 
 echo "Create cloud-init to import ssh key..."
 

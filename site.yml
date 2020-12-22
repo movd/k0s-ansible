@@ -8,9 +8,17 @@
     - role: download
     - role: prereq
 
+- hosts: initial_controller
+  gather_facts: yes
+  become: yes
+  name: Configure initial k0s control plane node
+  roles:
+    - role: k0s/initial_controller
+
 - hosts: controller
   gather_facts: yes
   become: yes
+  serial: 1
   name: Configure k0s control plane nodes
   roles:
     - role: k0s/controller

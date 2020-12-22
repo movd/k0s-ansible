@@ -1,15 +1,8 @@
 ---
 
-- name: Write the k0s config file
-  template:
-    src: k0s.yaml.j2
-    dest: "{{ k0s_config_dir }}/k0s.yaml"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0600
-
-- name: Copy k0s service file
-  register: k0s_controller_service
+- name: "Copy k0s service file"
+  become: true
+  register: k0s_secondary_controller_service
   template:
     src: k0s.service.j2
     dest: "{{ systemd_dest }}/k0s.service"
@@ -17,62 +10,24 @@
     group: root
     mode: 0755
 
-- name: Enable and check k0s service
+- name: "Write the k0s token file on controller"
+  template:
+    src: controller-token.j2
+    dest: "{{ k0s_config_dir }}/controller-token"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600
+
+- name: "Enable and check k0s service"
+  become: true
   systemd:
     name: k0s
     daemon_reload: yes
     state: restarted
     enabled: yes
 
-- name: Wait for k8s apiserver
+- name: "Wait for k8s apiserver"
   wait_for:
     host: localhost
     port: 6443
     timeout: 180
-
-- name: Create join worker token
-  register: worker_join_token
-  command: k0s token create --role=worker
-  changed_when: worker_join_token | length > 0
-
-- name: Store join worker join token
-  set_fact:
-    join_token_worker: "{{ worker_join_token.stdout }}"
-    key_value: "{{ worker_join_token.stdout }}"
-
-- name: "Add k0s Token to dummy host"
-  add_host:
-    name: "join_token_holder"
-    token: "{{ worker_join_token.stdout }}"
-
-- name: "print token"
-  debug:
-    msg: "k0s join token is: {{ hostvars['join_token_holder']['token'] }}"
-
-- name: Copy config file to user home directory
-  copy:
-    src: "{{ k0s_data_dir }}/pki/admin.conf"
-    dest: ~{{ ansible_user }}/k0s-kubeconfig.yml
-    remote_src: yes
-    owner: "{{ ansible_user }}"
-    mode: 0644
-
-- name: Set controller IP in kubeconfig
-  replace:
-    path: ~{{ ansible_user }}/k0s-kubeconfig.yml
-    regexp: 'localhost'
-    replace: "{{ ansible_host }}"
-
-- name: Copy kubectl binary to ansible host
-  fetch:
-    src: "~{{ ansible_user }}/k0s-kubeconfig.yml"
-    dest: "{{ artifacts_dir }}/k0s-kubeconfig.yml"
-    flat: yes
-    validate_checksum: no
-  become: no
-  # run_once: yes
-  # when: kubectl_localhost
-
-- name: "print kubeconfig command"
-  debug:
-    msg: "To use Cluster: export KUBECONFIG={{ artifacts_dir }}/k0s-kubeconfig.yml"

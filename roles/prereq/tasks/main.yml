@@ -12,3 +12,12 @@
     - "{{ k0s_config_dir }}"
     - "{{ k0s_data_dir }}"
     - "{{ k0s_libexec_dir }}"
+
+# TODO: LIMIT TO CONTROLLER NODES
+- name: Write the k0s config file
+  template:
+    src: k0s.yaml.j2
+    dest: "{{ k0s_config_dir }}/k0s.yaml"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0600

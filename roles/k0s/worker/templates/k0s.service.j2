@@ -7,8 +7,8 @@ After=network-online.target
 User=root
 Group=root
 Type=simple
-ExecStart={{ k0s_binary_dest }} \
-    worker --token-file {{ k0s_config_dir }}/worker-token
+ExecStart={{ k0s_binary_dest }} worker \
+    --token-file {{ k0s_config_dir }}/worker-token
 
 [Install]
 WantedBy=multi-user.target

@@ -1,14 +1,19 @@
+---
 all:
   children:
-    controller:
+    initial_controller:
       hosts:
         k0s-1:
-    worker:
+    controller:
       hosts:
         k0s-2:
         k0s-3:
+    worker:
+      hosts:
         k0s-4:
         k0s-5:
+        k0s-6:
+        k0s-7:
   hosts:
     k0s-1:
       ansible_host: 192.168.64.32
@@ -20,5 +25,9 @@ all:
       ansible_host: 192.168.64.57
     k0s-5:
       ansible_host: 192.168.64.58
+    k0s-6:
+      ansible_host: 192.168.64.60
+    k0s-7:
+      ansible_host: 192.168.64.61
   vars:
     ansible_user: k0s

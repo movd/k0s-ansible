@@ -8,7 +8,6 @@ User=k0s
 Group=k0s
 Type=simple
 ExecStart={{ k0s_binary_dest }} server \
-    --token-file {{ k0s_config_dir }}/controller-token \
     --config {{ k0s_config_dir }}/k0s.yaml
 
 [Install]

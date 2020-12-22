@@ -166,6 +166,3 @@ $ multipass delete $(multipass list --format csv | grep 'k0s' | cut -d',' -f1)
 $ multipass purge
 ```
 
-## Todo
-
-- Support multiple control plane nodes
