@@ -2,11 +2,12 @@
 
 - hosts: all
   name: Download k0s on all nodes
-  gather_facts: yes
   become: yes
   roles:
     - role: download
+      tags: download
     - role: prereq
+      tags: prereq
 
 - hosts: initial_controller
   gather_facts: yes

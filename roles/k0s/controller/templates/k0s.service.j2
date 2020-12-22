@@ -1,5 +1,6 @@
 [Unit]
-Description=k0s controller
+Description=k0s - Zero Friction Kubernetes
+ConditionFileIsExecutable=/usr/local/bin/k0s
 Documentation=https://docs.k0sproject.io/
 After=network-online.target
 
@@ -10,6 +11,9 @@ Type=simple
 ExecStart={{ k0s_binary_dest }} server \
     --token-file {{ k0s_config_dir }}/controller-token \
     --config {{ k0s_config_dir }}/k0s.yaml
+
+Restart=always
+RestartSec=120
 
 [Install]
 WantedBy=multi-user.target

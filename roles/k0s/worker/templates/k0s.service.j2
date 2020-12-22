@@ -1,5 +1,6 @@
 [Unit]
-Description=k0s worker
+Description=k0s - Zero Friction Kubernetes
+ConditionFileIsExecutable=/usr/local/bin/k0s
 Documentation=https://docs.k0sproject.io/
 After=network-online.target
 
@@ -9,6 +10,9 @@ Group=root
 Type=simple
 ExecStart={{ k0s_binary_dest }} worker \
     --token-file {{ k0s_config_dir }}/worker-token
+
+Restart=always
+RestartSec=120
 
 [Install]
 WantedBy=multi-user.target
