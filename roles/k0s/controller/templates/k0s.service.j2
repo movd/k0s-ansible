@@ -15,5 +15,9 @@ ExecStart={{ k0s_binary_dest }} server \
 Restart=always
 RestartSec=120
 KillMode=process
+
+StandardOutput=file:/var/log/k0s.log
+StandardError=file:/var/log/k0s-error.log
+
 [Install]
 WantedBy=multi-user.target
