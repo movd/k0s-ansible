@@ -1,8 +1,8 @@
 # k0s Ansible Playbook
 
-Create a Kubernetes Cluster using Ansible and k0s.
+Create a Kubernetes Cluster using Ansible and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s)
 
-This playbook is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible) and, of course, [kubespray](https://github.com/kubernetes-sigs/kubespray). I put it together to learn about Ansible and the new single binary and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s).
+This playbook is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible) and, of course, [kubespray](https://github.com/kubernetes-sigs/kubespray).
 
 ## Included Playbooks
 
@@ -145,3 +145,7 @@ pod "hello-k0s" deleted
 $ multipass delete $(multipass list --format csv | grep 'k0s' | cut -d',' -f1)
 $ multipass purge
 ```
+
+## How to Contribute
+
+I welcome issues to and pull requests against this repository!
