@@ -39,14 +39,7 @@ $ ./tools/multipass_create_instances.sh
 Create cloud-init to import ssh key...
 [1/5] Creating instance k0s-1 with multipass...
 Launched: k0s-1
-[2/5] Creating instance k0s-2 with multipass...
-Launched: k0s-2
-[3/5] Creating instance k0s-3 with multipass...
-Launched: k0s-3
-[4/5] Creating instance k0s-4 with multipass...
-Launched: k0s-4
-[5/5] Creating instance k0s-5 with multipass...
-Launched: k0s-5
+...
 Name                    State             IPv4             Image
 k0s-1                   Running           192.168.64.32    Ubuntu 20.04 LTS
 k0s-2                   Running           192.168.64.33    Ubuntu 20.04 LTS
@@ -86,42 +79,35 @@ Create your cluster:
 $ ansible-playbook site.yml -i inventory/multipass/inventory.yml
 ...
 TASK [k0s/initial_controller : print kubeconfig command] *******************************************************
-Tuesday 22 December 2020  17:43:20 +0100 (0:00:00.257)       0:00:41.287 ******
+Friday 22 January 2021  15:32:44 +0100 (0:00:00.247)       0:04:25.177 ********
 ok: [k0s-1] => {
     "msg": "To use Cluster: export KUBECONFIG=/Users/dev/k0s-ansible/inventory/multipass/artifacts/k0s-kubeconfig.yml"
 }
 ...
 PLAY RECAP *****************************************************************************************************
-k0s-1                      : ok=21   changed=11   unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-2                      : ok=10   changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-3                      : ok=10   changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-4                      : ok=9    changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-5                      : ok=9    changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-6                      : ok=9    changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-k0s-7                      : ok=9    changed=5    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
-
-Tuesday 22 December 2020  17:43:36 +0100 (0:00:01.204)       0:00:57.478 ******
+...
+Friday 22 January 2021  15:32:58 +0100 (0:00:00.575)       0:04:39.234 ********
 ===============================================================================
-prereq : Install apt packages -------------------------------------------------------------------------- 22.70s
-k0s/controller : Wait for k8s apiserver ----------------------------------------------------------------- 4.30s
-k0s/initial_controller : Create worker join token ------------------------------------------------------- 3.38s
-k0s/initial_controller : Wait for k8s apiserver --------------------------------------------------------- 3.36s
-download : Download k0s binary k0s-v0.9.0-rc1-amd64 ----------------------------------------------------- 3.11s
-Gathering Facts ----------------------------------------------------------------------------------------- 2.85s
-Gathering Facts ----------------------------------------------------------------------------------------- 1.95s
-prereq : Create k0s Directories ------------------------------------------------------------------------- 1.53s
-k0s/worker : Enable and check k0s service --------------------------------------------------------------- 1.20s
-prereq : Write the k0s config file ---------------------------------------------------------------------- 1.09s
-k0s/initial_controller : Enable and check k0s service --------------------------------------------------- 0.94s
-k0s/controller : Enable and check k0s service ----------------------------------------------------------- 0.73s
-Gathering Facts ----------------------------------------------------------------------------------------- 0.71s
-Gathering Facts ----------------------------------------------------------------------------------------- 0.66s
-Gathering Facts ----------------------------------------------------------------------------------------- 0.64s
-k0s/worker : Write the k0s token file on worker --------------------------------------------------------- 0.64s
-k0s/worker : Copy k0s service file ---------------------------------------------------------------------- 0.53s
-k0s/controller : Write the k0s token file on controller ------------------------------------------------- 0.41s
-k0s/controller : Copy k0s service file ------------------------------------------------------------------ 0.40s
-k0s/initial_controller : Copy k0s service file ---------------------------------------------------------- 0.36s
+download : Download k0s binary k0s-v0.10.0-beta1-amd64 ------------------------------------------------ 225.86s
+prereq : Install apt packages -------------------------------------------------------------------------- 17.30s
+k0s/initial_controller : Wait for k8s apiserver -------------------------------------------------------- 15.34s
+k0s/controller : Wait for k8s apiserver ----------------------------------------------------------------- 3.36s
+Gathering Facts ----------------------------------------------------------------------------------------- 1.35s
+prereq : Create k0s Directories ------------------------------------------------------------------------- 0.86s
+Gathering Facts ----------------------------------------------------------------------------------------- 0.84s
+k0s/worker : Create k0s worker service with install command --------------------------------------------- 0.80s
+Gathering Facts ----------------------------------------------------------------------------------------- 0.79s
+k0s/initial_controller : Create k0s initial server service with install command ------------------------- 0.76s
+k0s/initial_controller : Enable and check k0s service --------------------------------------------------- 0.74s
+k0s/controller : Create k0s server service with install command ----------------------------------------- 0.72s
+prereq : Write the k0s config file ---------------------------------------------------------------------- 0.69s
+Gathering Facts ----------------------------------------------------------------------------------------- 0.68s
+Gathering Facts ----------------------------------------------------------------------------------------- 0.65s
+k0s/worker : Enable and check k0s service --------------------------------------------------------------- 0.58s
+k0s/controller : Enable and check k0s service ----------------------------------------------------------- 0.53s
+k0s/worker : Write the k0s token file on worker --------------------------------------------------------- 0.48s
+k0s/controller : Write the k0s token file on controller ------------------------------------------------- 0.44s
+k0s/initial_controller : Set controller IP in kubeconfig ------------------------------------------------ 0.32s
 ```
 
 Connect to your new Kubernetes cluster. The config is ready to use in the `inventory/artifacts` directory:
@@ -129,11 +115,9 @@ Connect to your new Kubernetes cluster. The config is ready to use in the `inven
 ```ShellSession
 $ export KUBECONFIG=/Users/dev/k0s-ansible/inventory/multipass/artifacts/k0s-kubeconfig.yml
 $ kubectl get nodes -o wide
-NAME    STATUS   ROLES    AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
-k0s-2   Ready    <none>   2m42s   v1.19.4   192.168.64.33   <none>        Ubuntu 20.04.1 LTS   5.4.0-54-generic   containerd://1.4.3
-k0s-3   Ready    <none>   2m42s   v1.19.4   192.168.64.56   <none>        Ubuntu 20.04.1 LTS   5.4.0-54-generic   containerd://1.4.3
-k0s-4   Ready    <none>   2m42s   v1.19.4   192.168.64.57   <none>        Ubuntu 20.04.1 LTS   5.4.0-54-generic   containerd://1.4.3
-k0s-5   Ready    <none>   2m42s   v1.19.4   192.168.64.58   <none>        Ubuntu 20.04.1 LTS   5.4.0-54-generic   containerd://1.4.3
+NAME    STATUS   ROLES    AGE   VERSION        INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+k0s-4   Ready    <none>   17m   v1.20.2-k0s1   192.168.64.57   <none>        Ubuntu 20.04.1 LTS   5.4.0-62-generic   containerd://1.4.3
+k0s-5   Ready    <none>   17m   v1.20.2-k0s1   192.168.64.58   <none>        Ubuntu 20.04.1 LTS   5.4.0-62-generic   containerd://1.4.3
 $ kubectl run hello-k0s --image=quay.io/prometheus/busybox --rm -it --restart=Never --command -- sh -c "echo hello k0s"
 hello k0s
 pod "hello-k0s" deleted
