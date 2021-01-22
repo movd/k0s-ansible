@@ -1,5 +1,8 @@
 on:
   push:
+    paths:
+    - '**.yml'
+
 
 name: Ansible Lint
 
