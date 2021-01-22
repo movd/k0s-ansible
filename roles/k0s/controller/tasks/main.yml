@@ -1,15 +1,5 @@
 ---
 
-- name: "Copy k0s service file"
-  become: true
-  register: k0s_secondary_controller_service
-  template:
-    src: k0s.service.j2
-    dest: "{{ systemd_dest }}/k0s.service"
-    owner: root
-    group: root
-    mode: 0755
-
 - name: "Write the k0s token file on controller"
   template:
     src: controller-token.j2
@@ -18,10 +8,15 @@
     group: "{{ ansible_user }}"
     mode: 0600
 
+- name: Create k0s server service with install command
+  register: install_server_cmd
+  command: k0s install server --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/controller-token
+  changed_when: install_server_cmd | length > 0
+
 - name: "Enable and check k0s service"
   become: true
   systemd:
-    name: k0s
+    name: k0sserver
     daemon_reload: yes
     state: restarted
     enabled: yes

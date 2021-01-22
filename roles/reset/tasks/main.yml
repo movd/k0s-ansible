@@ -7,7 +7,8 @@
     enabled: no
   failed_when: false
   with_items:
-    - k0s
+    - k0sserver
+    - k0sworker
 
 - name: Umount k0s filesystems
   include_tasks: umount_with_children.yml

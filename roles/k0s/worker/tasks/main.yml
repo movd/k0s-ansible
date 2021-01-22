@@ -1,15 +1,5 @@
 ---
 
-- name: Copy k0s service file
-  become: true
-  register: k0s_worker_service
-  template:
-    src: k0s.service.j2
-    dest: "{{ systemd_dest }}/k0s.service"
-    owner: root
-    group: root
-    mode: 0755
-
 - name: Write the k0s token file on worker
   template:
     src: worker-token.j2
@@ -18,10 +8,15 @@
     group: "{{ ansible_user }}"
     mode: 0600
 
+- name: Create k0s worker service with install command
+  register: install_worker_cmd
+  command: k0s install worker --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/worker-token
+  changed_when: install_worker_cmd | length > 0
+
 - name: Enable and check k0s service
   become: true
   systemd:
-    name: k0s
+    name: k0sworker
     daemon_reload: yes
     state: restarted
     enabled: yes
