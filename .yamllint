@@ -1,6 +1,7 @@
 ---
 ignore: |
   /inventory/
+  /.github/
 
 extends: default
 

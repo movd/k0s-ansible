@@ -1,0 +1,23 @@
+on:
+  push:
+
+name: Ansible Lint
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Lint Ansible Playbook
+      # replace "master" with any valid ref
+        uses: ansible/ansible-lint-action@master
+        with:
+          targets: |
+            site.yml
+            reset.yml
+          # override-deps: |
+            # ansible==2.9
+            # ansible-lint==4.2.0
+
