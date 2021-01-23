@@ -1,3 +1,5 @@
+![Supported k0s version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/movd/k0s-ansible/main/supported-k0s-version.json) ![Ansible Lint status](https://github.com/movd/k0s-ansible/workflows/Ansible%20Lint/badge.svg?branch=main) ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/movd/k0s-ansible/latest)
+
 # k0s Ansible Playbook
 
 Create a Kubernetes Cluster using Ansible and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s)
@@ -12,7 +14,7 @@ This playbook is largely based on the extensive and outstanding work of the cont
 $ ansible-playbook site.yml -i inventory/multipass/inventory.yml
 ```
 
-Install k0s on `worker` and `controller` host in your inventory. Currently creates one Kubernetes control plane server.
+Your inventory must include at least one `initial_controller` and one `worker` node. To get a highly available control plane more `controller` nodes can be added. The first initial controller creates tokens that get written to the nodes when the playbook is executed.
 
 `reset.yml`:
 
