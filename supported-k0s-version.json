@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
   "label": "supports k0s",
-  "message": "v0.10.0-beta2",
+  "message": "v0.10.0-rc1",
   "color": "green"
 }
