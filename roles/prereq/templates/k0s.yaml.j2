@@ -8,7 +8,7 @@ images:
     version: v0.3.7
   kubeproxy:
     image: k8s.gcr.io/kube-proxy
-    version: v1.20.2
+    version: v1.20.4
   coredns:
     image: docker.io/coredns/coredns
     version: 1.7.0
@@ -38,18 +38,10 @@ metadata:
 spec:
   api:
     address: {{ ansible_host }}
-    externalAddress: ""
     sans:
     - {{ ansible_host }}
-    - {{ ansible_host }}
-    extraArgs: {}
-  controllerManager:
-    extraArgs: {}
-  scheduler:
-    extraArgs: {}
   storage:
     type: etcd
-    kine: null
     etcd:
       peerAddress: {{ ansible_host }}
   network:
@@ -65,10 +57,8 @@ spec:
       flexVolumeDriverPath: /usr/libexec/k0s/kubelet-plugins/volume/exec/nodeagent~uds
       withWindowsNodes: false
       overlay: Always
-      ipAutodetectionMethod: ""
   podSecurityPolicy:
     defaultPolicy: 00-k0s-privileged
-  workerProfiles: []
 telemetry:
   interval: 10m0s
   enabled: true

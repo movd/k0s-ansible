@@ -1,5 +1,5 @@
 ---
-k0s_version: v0.10.0
+k0s_version: v0.11.0
 ansible_user: k0s
 artifacts_dir: "{{ inventory_dir }}/artifacts"
 systemd_dest: /etc/systemd/system
