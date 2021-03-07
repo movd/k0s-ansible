@@ -7,7 +7,7 @@
     enabled: no
   failed_when: false
   with_items:
-    - k0sserver
+    - k0scontroller
     - k0sworker
 
 - name: Umount k0s filesystems

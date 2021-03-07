@@ -1,4 +1,4 @@
-![Supported k0s version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/movd/k0s-ansible/main/supported-k0s-version.json) ![Ansible Lint status](https://github.com/movd/k0s-ansible/workflows/Ansible%20Lint/badge.svg?branch=main) ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/movd/k0s-ansible/latest)
+![Supported k0s version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/movd/k0s-ansible/main/supported-k0s-version.json) [![Ansible Lint status](https://github.com/movd/k0s-ansible/workflows/Ansible%20Lint/badge.svg?branch=main)](https://github.com/movd/k0s-ansible/actions) ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/movd/k0s-ansible/latest)
 
 # k0s Ansible Playbook
 
@@ -99,9 +99,9 @@ prereq : Create k0s Directories ------------------------------------------------
 Gathering Facts ----------------------------------------------------------------------------------------- 0.84s
 k0s/worker : Create k0s worker service with install command --------------------------------------------- 0.80s
 Gathering Facts ----------------------------------------------------------------------------------------- 0.79s
-k0s/initial_controller : Create k0s initial server service with install command ------------------------- 0.76s
+k0s/initial_controller : Create k0s initial controller service with install command ------------------------- 0.76s
 k0s/initial_controller : Enable and check k0s service --------------------------------------------------- 0.74s
-k0s/controller : Create k0s server service with install command ----------------------------------------- 0.72s
+k0s/controller : Create k0s controller service with install command ----------------------------------------- 0.72s
 prereq : Write the k0s config file ---------------------------------------------------------------------- 0.69s
 Gathering Facts ----------------------------------------------------------------------------------------- 0.68s
 Gathering Facts ----------------------------------------------------------------------------------------- 0.65s
