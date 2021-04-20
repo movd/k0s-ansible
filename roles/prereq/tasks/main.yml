@@ -13,19 +13,25 @@
     - "{{ k0s_data_dir }}"
     - "{{ k0s_libexec_dir }}"
 
-- name: Install apt packages
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-    pkg:
-      - jq
-    state: present
-
-# TODO: LIMIT TO CONTROLLER NODES
-- name: Write the k0s config file
+- name: Write the custom k0s config file
   template:
     src: k0s.yaml.j2
     dest: "{{ k0s_config_dir }}/k0s.yaml"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0600
+  when: k0s_use_custom_config == true
+
+- name: Generate default k0s config file
+  become: true
+  block:
+    - name: Create default k0s config
+      register: default_k0s_config
+      command: k0s default-config > {{ k0s_config_dir }}/k0s.yaml
+      # changed_when: generate_default_k0s_config | length > 0
+      # when: k0s_use_custom_config != true
+    - name: Store default k0f config
+      copy:
+        dest: "{{ k0s_config_dir }}/k0s.yaml"
+        content: "{{ default_k0s_config.stdout }}" 
+  when: k0s_use_custom_config != true
