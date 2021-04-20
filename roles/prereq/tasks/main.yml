@@ -20,7 +20,7 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0600
-  when: k0s_use_custom_config == true
+  when: k0s_use_custom_config
 
 - name: Generate default k0s config file
   become: true
@@ -28,10 +28,11 @@
     - name: Create default k0s config
       register: default_k0s_config
       command: k0s default-config > {{ k0s_config_dir }}/k0s.yaml
-      # changed_when: generate_default_k0s_config | length > 0
-      # when: k0s_use_custom_config != true
     - name: Store default k0f config
       copy:
         dest: "{{ k0s_config_dir }}/k0s.yaml"
-        content: "{{ default_k0s_config.stdout }}" 
-  when: k0s_use_custom_config != true
+        content: "{{ default_k0s_config.stdout }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: 0600
+  when: not k0s_use_custom_config
