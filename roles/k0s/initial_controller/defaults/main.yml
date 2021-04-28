@@ -1,0 +1,4 @@
+---
+k0s_config_dir: /etc/k0s
+k0s_data_dir: /var/lib/k0s
+artifacts_dir: "{{ inventory_dir }}/artifacts"
