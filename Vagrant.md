@@ -1,69 +1,45 @@
-![Supported k0s version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/movd/k0s-ansible/main/supported-k0s-version.json) [![Ansible Lint status](https://github.com/movd/k0s-ansible/workflows/Ansible%20Lint/badge.svg?branch=main)](https://github.com/movd/k0s-ansible/actions) [![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/movd/k0s-ansible/latest)](https://github.com/movd/k0s-ansible/commits/main)
 
-# k0s Ansible Playbook
-
-Create a Kubernetes Cluster using Ansible and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s)
-
-This playbook is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible) and, of course, [kubespray](https://github.com/kubernetes-sigs/kubespray).
 
 ## Included Playbooks
 
 `site.yml`:
 
 ```ShellSession
-$ ansible-playbook site.yml -i inventory/multipass/inventory.yml
+$ ansible-playbook site.yml -i inventory/vagrant/inventory.yml
 ```
 
 Your inventory must include at least one `initial_controller` and one `worker` node. To get a highly available control plane more `controller` nodes can be added. The first initial controller creates tokens that get written to the nodes when the playbook is executed.
 
+Since vagrant adds a NAT interface to your VMs by default, we have to use a custom k0s.config so that the right network interface is used for k0s, for that we have defined `k0s_use_custom_config: true` in [group_vars/all.yml](inventory/vagrant/group_vars/all.yml)
+
 `reset.yml`:
 
 ```ShellSession
-$ ansible-playbook reset.yml -i inventory/multipass/inventory.yml
+$ ansible-playbook reset.yml -i inventory/vagrant/inventory.yml
 ```
 
 Deletes k0s all its files, directories and services from all hosts.
 
-## Step by step guide
+## Example with Vagrant
 
-You can find a user guide on how to use this playbook in the [k0s documentation](https://docs.k0sproject.io/main/examples/ansible-playbook/).
-
-## Example with multipass
-
-For the quick creation of virtual machines, I have added a script that provisions a bunch of nodes via [multipass](https://github.com/canonical/multipass) and another small Python script that generates an Ansible inventory from the created instances.
+For the quick creation of virtual machines, there's a [Vagrantfile](Vagrantfile) included  
+By default it creates 5 VMs, to override this , edit the file and define your desired number of VMs at the top of the file (look for `VMS`)
 
 Steps:
 
-Create 5 instances with multipass and import your ssh public key with cloud-init (`create_instances.sh`):
+- Examine the `Vagrantfile` and make sure the network prefix assigned to the **private_network** is what you expect
+
+- Create instances with vagrant
 
 ```ShellSession
-$ ./tools/multipass_create_instances.sh
-Create cloud-init to import ssh key...
-[1/5] Creating instance k0s-1 with multipass...
-Launched: k0s-1
-...
-Name                    State             IPv4             Image
-k0s-1                   Running           192.168.64.32    Ubuntu 20.04 LTS
-k0s-2                   Running           192.168.64.33    Ubuntu 20.04 LTS
-k0s-3                   Running           192.168.64.56    Ubuntu 20.04 LTS
-k0s-4                   Running           192.168.64.57    Ubuntu 20.04 LTS
-k0s-5                   Running           192.168.64.58    Ubuntu 20.04 LTS
+$ vagrant up
 ```
+- Edit the [inventory](inventory/vagrant/inventory.yml) file and check if the information is correct
 
-Generate your Ansible inventory:
-
-```ShellSession
-$ cp -rfp inventory/sample inventory/multipass
-$ ./tools/multipass_generate_inventory.py
-Designate first instance as control plane
-Created Ansible Inventory at: /Users/dev/k0s-ansible/tools/inventory.yml
-$ cp tools/inventory.yml inventory/multipass/inventory.yml
-```
-
-Test the ssh connection to all instances in your `inventory.yml`:
+- Test the ssh connection to all instances in your `inventory.yml`:
 
 ```ShellSession
-$ ansible -i inventory/multipass/inventory.yml -m ping all
+$ ansible -i inventory/vagrant/inventory.yml -m ping all
 k0s-4 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
@@ -78,12 +54,12 @@ k0s-1 | SUCCESS => {
 Create your cluster:
 
 ```ShellSession
-$ ansible-playbook site.yml -i inventory/multipass/inventory.yml
+$ ansible-playbook site.yml -i inventory/vagrant/inventory.yml
 ...
 TASK [k0s/initial_controller : print kubeconfig command] *******************************************************
 Friday 22 January 2021  15:32:44 +0100 (0:00:00.247)       0:04:25.177 ********
 ok: [k0s-1] => {
-    "msg": "To use Cluster: export KUBECONFIG=/Users/dev/k0s-ansible/inventory/multipass/artifacts/k0s-kubeconfig.yml"
+    "msg": "To use Cluster: export KUBECONFIG=/Users/dev/k0s-ansible/inventory/vagrant/artifacts/k0s-kubeconfig.yml"
 }
 ...
 PLAY RECAP *****************************************************************************************************
@@ -115,7 +91,7 @@ k0s/initial_controller : Set controller IP in kubeconfig -----------------------
 Connect to your new Kubernetes cluster. The config is ready to use in the `inventory/artifacts` directory:
 
 ```ShellSession
-$ export KUBECONFIG=/Users/dev/k0s-ansible/inventory/multipass/artifacts/k0s-kubeconfig.yml
+$ export KUBECONFIG=/Users/dev/k0s-ansible/inventory/vagrant/artifacts/k0s-kubeconfig.yml
 $ kubectl get nodes -o wide
 NAME    STATUS   ROLES    AGE   VERSION        INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
 k0s-4   Ready    <none>   17m   v1.20.2-k0s1   192.168.64.57   <none>        Ubuntu 20.04.1 LTS   5.4.0-62-generic   containerd://1.4.3
@@ -128,15 +104,5 @@ pod "hello-k0s" deleted
 ### Want to trow away your cluster and start all over?
 
 ```ShellSession
-$ multipass delete $(multipass list --format csv | grep 'k0s' | cut -d',' -f1)
-$ multipass purge
+$ vagrant destroy -f
 ```
-
-## Test with Vagrant
-It's assumed that vagrant is installed, if not, download and install it from their [website](https://www.vagrantup.com/downloads)
-
-After that consult the [readme](Vagrant.md)
-
-## How to Contribute
-
-I welcome issues to and pull requests against this repository!

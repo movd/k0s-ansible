@@ -1,0 +1,33 @@
+---
+all:
+  children:
+    initial_controller:
+      hosts:
+        k0s-1:
+    controller:
+      hosts:
+        k0s-2:
+        k0s-3:
+    worker:
+      hosts:
+        k0s-4:
+        k0s-5:
+        k0s-6:
+        k0s-7:
+  hosts:
+    k0s-1:
+      ansible_host: 192.168.56.151
+    k0s-2:
+      ansible_host: 192.168.56.152
+    k0s-3:
+      ansible_host: 192.168.56.153
+    k0s-4:
+      ansible_host: 192.168.56.154
+    k0s-5:
+      ansible_host: 192.168.56.155
+    k0s-6:
+      ansible_host: 192.168.56.156
+    k0s-7:
+      ansible_host: 192.168.56.157
+  vars:
+    ansible_user: vagrant

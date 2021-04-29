@@ -1,7 +1,10 @@
 *.code-workspace
 .vscode
+.ansible_facts_cache
+.vagrant
 inventory/*
 !inventory/sample
+!inventory/vagrant
 inventory/*/artifacts/
 multipass-cloud-init.yml
 tools/inventory.yml
