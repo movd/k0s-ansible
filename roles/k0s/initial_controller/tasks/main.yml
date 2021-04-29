@@ -21,13 +21,13 @@
 
 - name: Create worker join token
   register: worker_join_token
-  command: k0s token create --role=worker
+  command: k0s token create --role worker  --config {{ k0s_config_dir }}/k0s.yaml
   changed_when: worker_join_token | length > 0
 
 - name: Store worker join token
   set_fact:
     join_token_worker: "{{ worker_join_token.stdout }}"
-    key_value: "{{ worker_join_token.stdout }}"
+    cacheable: yes
 
 - name: Add k0s worker token to dummy host
   add_host:
@@ -36,17 +36,17 @@
 
 - name: Print worker token
   debug:
-    msg: "k0s worker join token is: {{ hostvars['worker_token_holder']['token'] }}"
+    msg: "k0s worker join token is: {{ worker_join_token.stdout }}"
 
 - name: Create controller join token
   register: controller_join_token
-  command: k0s token create --role=server
+  command: k0s token create --role controller --config {{ k0s_config_dir }}/k0s.yaml
   changed_when: controller_join_token | length > 0
 
 - name: Store controller join token
   set_fact:
-    join_token_worker: "{{ controller_join_token.stdout }}"
-    key_value: "{{ controller_join_token.stdout }}"
+    join_token_controller: "{{ controller_join_token.stdout }}"
+    cacheable: yes
 
 - name: Add k0s controller token to dummy host
   add_host:
@@ -55,7 +55,7 @@
 
 - name: Print controller token
   debug:
-    msg: "k0s controller join token is: {{ hostvars['controller_token_holder']['token'] }}"
+    msg: "k0s controller join token is: {{ controller_join_token.stdout }}"
 
 - name: Copy config file to user home directory
   copy:
