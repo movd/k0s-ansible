@@ -125,7 +125,7 @@ hello k0s
 pod "hello-k0s" deleted
 ```
 
-### Want to trow away your cluster and start all over?
+### Want to throw away your cluster and start all over?
 
 ```ShellSession
 $ multipass delete $(multipass list --format csv | grep 'k0s' | cut -d',' -f1)
@@ -133,6 +133,7 @@ $ multipass purge
 ```
 
 ## Test with Vagrant
+
 It's assumed that vagrant is installed, if not, download and install it from their [website](https://www.vagrantup.com/downloads)
 
 After that consult the [readme](Vagrant.md)

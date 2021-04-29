@@ -12,8 +12,6 @@ all:
       hosts:
         k0s-4:
         k0s-5:
-        k0s-6:
-        k0s-7:
   hosts:
     k0s-1:
       ansible_host: 192.168.56.151
@@ -25,9 +23,5 @@ all:
       ansible_host: 192.168.56.154
     k0s-5:
       ansible_host: 192.168.56.155
-    k0s-6:
-      ansible_host: 192.168.56.156
-    k0s-7:
-      ansible_host: 192.168.56.157
   vars:
     ansible_user: vagrant
