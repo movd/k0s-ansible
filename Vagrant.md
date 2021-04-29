@@ -1,5 +1,3 @@
-
-
 ## Included Playbooks
 
 `site.yml`:
@@ -27,13 +25,16 @@ By default it creates 5 VMs, to override this , edit the file and define your de
 
 Steps:
 
-- Examine the `Vagrantfile` and make sure the network prefix assigned to the **private_network** is what you expect
+- Examine the `Vagrantfile` and make sure the network prefix assigned to the **private_network** is what you expect.
+
+- Make sure you have the plugin `vagrant-vbguest` installed: `vagrant plugin install vagrant-vbguest`
 
 - Create instances with vagrant
 
 ```ShellSession
 $ vagrant up
 ```
+
 - Edit the [inventory](inventory/vagrant/inventory.yml) file and check if the information is correct
 
 - Test the ssh connection to all instances in your `inventory.yml`:
@@ -101,7 +102,7 @@ hello k0s
 pod "hello-k0s" deleted
 ```
 
-### Want to trow away your cluster and start all over?
+### Want to throw away your cluster and start all over?
 
 ```ShellSession
 $ vagrant destroy -f
