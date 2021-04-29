@@ -28,7 +28,7 @@
     - "{{ k0s_data_dir }}"
     - "{{ k0s_libexec_dir }}"
     - /var/lib/kubelet
-    - "{{ systemd_dest }}/k0s.service"
+    - "{{ systemd_dest }}/k0scontroller.service"
 
 - name: daemon_reload
   systemd:
