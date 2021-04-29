@@ -15,6 +15,7 @@
   name: Configure initial k0s control plane node
   roles:
     - role: k0s/initial_controller
+      tags: init
 
 - hosts: controller
   gather_facts: yes
@@ -23,9 +24,11 @@
   name: Configure k0s control plane nodes
   roles:
     - role: k0s/controller
+      tags: server
 
 - hosts: worker
   become: yes
   name: Configure k0s worker nodes
   roles:
     - role: k0s/worker
+      tags: worker
