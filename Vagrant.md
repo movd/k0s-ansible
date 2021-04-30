@@ -37,6 +37,15 @@ $ vagrant up
 
 - Edit the [inventory](inventory/vagrant/inventory.yml) file and check if the information is correct
 
+- Add vagrant's default ssh-key to your ssh-agent
+```ShellSession
+ssh-add ~/.vagrant/insecure_private_key
+```
+if not using a ssh-agent, add this to ansible.cfg
+```ShellSession
+private_key_file = ~/.vagrant.d/insecure_private_key
+```
+
 - Test the ssh connection to all instances in your `inventory.yml`:
 
 ```ShellSession

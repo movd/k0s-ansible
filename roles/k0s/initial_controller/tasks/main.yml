@@ -2,7 +2,10 @@
 
 - name: Create k0s initial controller service with install command
   register: install_initial_controller_cmd
-  command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml
+  command: >
+    k0s install controller
+      --config {{ k0s_config_dir }}/k0s.yaml
+      --kubelet-extra-args="--node-ip={{ ansible_host }} --address=0.0.0.0"
   changed_when: install_initial_controller_cmd | length > 0
 
 - name: Enable and check k0s service

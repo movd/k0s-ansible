@@ -10,7 +10,11 @@
 
 - name: Create k0s worker service with install command
   register: install_worker_cmd
-  command: k0s install worker --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/worker-token
+  command: >
+    k0s install worker
+      --config {{ k0s_config_dir }}/k0s.yaml
+      --token-file {{ k0s_config_dir }}/worker-token
+      --kubelet-extra-args="--node-ip={{ ansible_host }} --address=0.0.0.0"
   changed_when: install_worker_cmd | length > 0
 
 - name: Enable and check k0s service
