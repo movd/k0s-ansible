@@ -1,5 +1,5 @@
 ---
-# Use this to overwrite the role defaults
+### Use this to overwrite the role defaults
 # k0s_version: v1.20.6+k0s.0
 # ansible_user: k0s
 # artifacts_dir: "{{ inventory_dir }}/artifacts"
@@ -9,3 +9,9 @@
 # k0s_data_dir: /var/lib/k0s
 # k0s_libexec_dir: /usr/libexec/k0s/
 # k0s_use_custom_config: false
+
+### Docs: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens
+# k8s_enable_oidc_auth: false
+# k8s_oidc_issuer_url: https://accounts.google.com
+# k8s_oidc_username_claim: email
+# k8s_oidc_client_id: <secret>

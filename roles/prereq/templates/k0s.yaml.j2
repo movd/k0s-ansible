@@ -9,6 +9,12 @@ spec:
     k0sApiPort: 9443
     sans:
     - {{ ansible_host }}
+{% if k8s_enable_oidc_auth %}
+    extraArgs:
+      oidc-issuer-url: {{ k8s_oidc_issuer_url }}
+      oidc-username-claim: {{ k8s_oidc_username_claim }}
+      oidc-client-id: {{ k8s_oidc_client_id }}
+{% endif %}
   storage:
     type: etcd
     etcd:
