@@ -21,7 +21,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /usr/bin/bash
     ssh_authorized_keys:
-      - $( cat ~/.ssh/id_*.pub )
+      - $( cat "$(ls -1 ~/.ssh/id_*.pub | head -1)" )
 EOF
 
 for ((i = 1 ; i <= "${NUMBER_OF_VMS}" ; i++)); do

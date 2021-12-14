@@ -1,6 +1,6 @@
 ---
 # Use this to overwrite the role defaults
-# k0s_version: v1.20.6+k0s.0
+# k0s_version: v1.22.4+k0s.1
 # ansible_user: k0s
 # artifacts_dir: "{{ inventory_dir }}/artifacts"
 # systemd_dest: /etc/systemd/system

@@ -5,6 +5,10 @@
   command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml {{ extra_args | default(omit) }}
   changed_when: install_initial_controller_cmd | length > 0
 
+- name: Setup custom environment variables for systemd unit
+  include_role:
+    name: env_setup
+
 - name: Enable and check k0s service
   systemd:
     name: k0scontroller

@@ -13,6 +13,10 @@
   command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/controller-token {{ extra_args | default(omit) }}
   changed_when: install_controller_cmd | length > 0
 
+- name: Setup custom environment variables for systemd unit
+  include_role:
+    name: env_setup
+
 - name: "Enable and check k0s service"
   become: true
   systemd:
