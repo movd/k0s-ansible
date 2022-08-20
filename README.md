@@ -132,6 +132,25 @@ $ multipass delete $(multipass list --format csv | grep 'k0s' | cut -d',' -f1)
 $ multipass purge
 ```
 
+## Example with virt-lightning
+
+Virt-lightning (aliased as vl) is tool for fast deploy of virtual machines using Libvirt as backend. Script provided to
+deploy number of VM and generate Ansible inventory. If some machines are running, they are not changed at the script 
+run. 5 VMs are created by default, pass number as argument if needed.
+
+```ShellSession
+$ tools/vl_create_instances_inventory.py
+```
+
+This command will create VMs and generate inventory file in `tools` directory. 
+
+### How to cleanup the cluster
+
+If you have only k0s VMs, just cleanup everything:
+```ShellSession
+$ vl down
+```
+
 ## Test with Vagrant
 
 It's assumed that vagrant is installed, if not, download and install it from their [website](https://www.vagrantup.com/downloads)
