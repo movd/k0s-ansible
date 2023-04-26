@@ -8,6 +8,8 @@ all:
       hosts:
         k0s-2:
         k0s-3:
+      vars:
+        k0s_controller_extra_vars: "--enable-worker"  # this enables workload scheduling also on controllers
     worker:
       hosts:
         k0s-4:
