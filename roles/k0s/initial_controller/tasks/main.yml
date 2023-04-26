@@ -2,7 +2,7 @@
 
 - name: Create k0s initial controller service with install command
   register: install_initial_controller_cmd
-  command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml {{ extra_args | default(omit) }}
+  command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml {{ k0s_controller_extra_args | default(omit) }}
   changed_when: install_initial_controller_cmd | length > 0
 
 - name: Setup custom environment variables for systemd unit
@@ -25,7 +25,7 @@
 
 - name: Create worker join token
   register: worker_join_token
-  command: k0s token create --role worker  --config {{ k0s_config_dir }}/k0s.yaml
+  command: k0s token create --role worker
   changed_when: worker_join_token | length > 0
 
 - name: Store worker join token
