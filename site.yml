@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: initial_controller:controller:worker
   name: Download k0s on all nodes
   become: yes
   roles:
