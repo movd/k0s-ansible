@@ -2,7 +2,7 @@
 
 - name: Create k0s initial controller service with install command
   register: install_initial_controller_cmd
-  command: k0s install controller {{ extra_args | default(omit) }}
+  command: k0s install controller {% if k0s_single_node %} --enable-worker --single {% endif %} {{ extra_args | default(omit) }}
   args:
     creates: /etc/systemd/system/k0scontroller.service
   changed_when: install_initial_controller_cmd | length > 0
@@ -29,39 +29,47 @@
   register: worker_join_token
   command: k0s token create --role worker
   changed_when: worker_join_token | length > 0
+  when: not k0s_single_node
 
 - name: Store worker join token
   set_fact:
     join_token_worker: "{{ worker_join_token.stdout }}"
     cacheable: yes
+  when: not k0s_single_node
 
 - name: Add k0s worker token to dummy host
   add_host:
     name: "worker_token_holder"
     token: "{{ worker_join_token.stdout }}"
+  when: not k0s_single_node
 
 - name: Print worker token
   debug:
     msg: "k0s worker join token is: {{ worker_join_token.stdout }}"
+  when: not k0s_single_node
 
 - name: Create controller join token
   register: controller_join_token
   command: k0s token create --role controller
   changed_when: controller_join_token | length > 0
+  when: not k0s_single_node
 
 - name: Store controller join token
   set_fact:
     join_token_controller: "{{ controller_join_token.stdout }}"
     cacheable: yes
+  when: not k0s_single_node
 
 - name: Add k0s controller token to dummy host
   add_host:
     name: "controller_token_holder"
     token: "{{ controller_join_token.stdout }}"
+  when: not k0s_single_node
 
 - name: Print controller token
   debug:
     msg: "k0s controller join token is: {{ controller_join_token.stdout }}"
+  when: not k0s_single_node
 
 - name: Copy config file to user home directory
   copy:

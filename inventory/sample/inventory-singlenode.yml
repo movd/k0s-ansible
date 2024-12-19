@@ -1,0 +1,14 @@
+---
+all:
+  children:
+    initial_controller:
+      hosts:
+        k0s-1:
+      vars:
+        k0s_single_node: true
+  hosts:
+    k0s-1:
+      ansible_host: 192.168.64.32
+
+  vars:
+    ansible_user: k0s
