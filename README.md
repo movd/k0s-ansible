@@ -4,7 +4,9 @@
 
 Create a Kubernetes Cluster using Ansible and vanilla upstream Kubernetes distro [k0s](https://github.com/k0sproject/k0s)
 
-This playbook is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible) and, of course, [kubespray](https://github.com/kubernetes-sigs/kubespray).
+This playbook is forked from [k0s-ansible](https://github.com/movd/k0s-ansible) which is largely based on the extensive and outstanding work of the contributors of [k3s-ansible](https://github.com/k3s-io/k3s-ansible), of course, [kubespray](https://github.com/kubernetes-sigs/kubespray).
+
+This fork was created as the original repo has been dead for the past year and some nice PRs were submitted. Ideally, this should become a community project where multiple maintainers can partake in code reviews and accepting PRs. If you wish to become a maintainer, please reach out.
 
 ## Included Playbooks
 
