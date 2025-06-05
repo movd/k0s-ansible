@@ -54,7 +54,7 @@ Generate your Ansible inventory:
 
 ```ShellSession
 $ cp -rfp inventory/sample inventory/multipass
-$ ./tools/multipass_generate_inventory.py
+$ uv run ./tools/multipass_generate_inventory.py
 Designate first instance as control plane
 Created Ansible Inventory at: /Users/dev/k0s-ansible/tools/inventory.yml
 $ cp tools/inventory.yml inventory/multipass/inventory.yml

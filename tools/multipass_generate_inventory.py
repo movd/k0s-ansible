@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "PyYAML",
+# ]
+# ///
+
 import subprocess
 import json
 import yaml
