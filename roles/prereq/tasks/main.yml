@@ -25,10 +25,10 @@
 - name: Generate default k0s config file
   become: true
   block:
-    - name: Create default k0s config
+    - name: "Create default k0s config {{ k0s_config_dir }}/k0s.yaml"
       register: default_k0s_config
-      command: k0s default-config > {{ k0s_config_dir }}/k0s.yaml
-    - name: Store default k0f config
+      command: "k0s config create"
+    - name: Store default k0s config
       copy:
         dest: "{{ k0s_config_dir }}/k0s.yaml"
         content: "{{ default_k0s_config.stdout }}"

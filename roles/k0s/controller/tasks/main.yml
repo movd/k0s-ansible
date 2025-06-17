@@ -10,7 +10,7 @@
 
 - name: Create k0s controller service with install command
   register: install_controller_cmd
-  command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/controller-token {{ extra_args | default(omit) }}
+  command: k0s install controller --config {{ k0s_config_dir }}/k0s.yaml --token-file {{ k0s_config_dir }}/controller-token {{ extra_args | default(None) }}
   changed_when: install_controller_cmd | length > 0
 
 - name: Setup custom environment variables for systemd unit
