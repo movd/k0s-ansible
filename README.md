@@ -1,3 +1,6 @@
+> [!WARNING]
+> This Ansible Playbook is no longer maintained. You can find a similar project at [bodsch/ansible-k0s](https://github.com/bodsch/ansible-k0s).
+
 ![Supported k0s version](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/movd/k0s-ansible/main/supported-k0s-version.json) [![Ansible Lint status](https://github.com/movd/k0s-ansible/workflows/Ansible%20Lint/badge.svg?branch=main)](https://github.com/movd/k0s-ansible/actions) [![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/movd/k0s-ansible/latest)](https://github.com/movd/k0s-ansible/commits/main)
 
 # k0s Ansible Playbook
@@ -135,14 +138,14 @@ $ multipass purge
 ## Example with virt-lightning
 
 Virt-lightning (aliased as vl) is tool for fast deploy of virtual machines using Libvirt as backend. Script provided to
-deploy number of VM and generate Ansible inventory. If some machines are running, they are not changed at the script 
+deploy number of VM and generate Ansible inventory. If some machines are running, they are not changed at the script
 run. 5 VMs are created by default, pass number as argument if needed.
 
 ```ShellSession
 $ tools/vl_create_instances_inventory.py
 ```
 
-This command will create VMs and generate inventory file in `tools` directory. 
+This command will create VMs and generate inventory file in `tools` directory.
 
 ### How to cleanup the cluster
 
